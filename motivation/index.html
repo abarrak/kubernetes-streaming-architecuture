@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video Streaming Sample</title>
+  <style>
+    body {
+      background-color: lightgray;
+      max-width: 80%;
+      margin: auto;
+      margin-top: 2.5rem;
+      text-align: center;
+      font-family: Garamond, Times;
+      color: gray;
+    }
+    div {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      border: 1px gray solid;
+    }
+    h2 {
+      color: black;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.9.2/dash.all.min.js" integrity="sha256-EmXFhpSryXnCa3tOiKDfYUFhpmnkvo3PSe3Tj3KpX6o=" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div>
+    <h2>An experiment to stream on-demand video for spiked user load simulated by JMeter and Seleinum</h2>
+    <p>By: Abdullah Barrak</p>
+    <p>Supervised by: Dr. Ashraf Gazdar</p>
+    <p>SWE Master Proposal (2019) - KSU University</p>
+  </div>
+
+    <!--<section>
+      <video>
+        <source src="demo_manifest.mpd">
+        <source src="demo_manifest.webm">
+        Your browser does not support the video tag.
+      </video>
+    </section>-->
+
+    <video controls autoplay preload="none" width="700px" height="400px">
+        <source src="demo_manifest.mpd" type="application/dash+xml">
+    </video>
+</body>
+</html>
