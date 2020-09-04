@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Streaming Solution Web UI</h1>
+            <p class="lead">This is the web UI part of the K8S-based streaming architecture solution.</p>
+        </div>
+    </div>
+
+    <div class="card" style="width: 18rem;">
+        <div class="card-header">
+            Actions:
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <a asp-controller="home" asp-action="ListAll">All Videos List</a>
+            </li>
+            <li class="list-group-item">
+                <a asp-controller="home" asp-action="Upload">Upload</a>
+            </li>
+            <li class="list-group-item">
+                <a asp-controller="home" asp-action="Search">Search</a>
+            </li>
+        </ul>
+    </div>
+</div>

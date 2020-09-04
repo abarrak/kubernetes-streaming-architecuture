@@ -1,0 +1,24 @@
+﻿@model WebUI.Models.Dtos.FileDto
+@{
+    ViewData["Title"] = "Upload";
+}
+
+<form enctype="multipart/form-data" method="post">
+    <dl>
+        <dt>
+            <label asp-for="@Model.FormFile"></label>
+        </dt>
+        <dd>
+            <input asp-for="@Model.FormFile" type="file">
+            <span asp-validation-for="@Model.FormFile"></span>
+        </dd>
+        <dt>
+            <label asp-for="@Model.Desciption"></label>
+        </dt>
+        <dd>
+            <input asp-for="@Model.Desciption" type="text">
+            <span asp-validation-for="@Model.Desciption"></span>
+        </dd>
+    </dl>
+    <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
+</form>
