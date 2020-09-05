@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebUI.Models.Dtos;
@@ -9,7 +8,7 @@ namespace WebUI.Models.Contracts
 {
     public interface IMediaFileManager
     {
-        Task Upload(FileDto file);
+        Task<bool> Upload(FileDto file);
 
         Task<MediaFile> Get(long id);
         Task<IEnumerable<MediaFile>> GetAll();

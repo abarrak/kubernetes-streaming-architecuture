@@ -28,7 +28,7 @@ namespace WebUI.Models.Data
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"
                         INSERT INTO MediaFile
-                        (Name, Type, Size, FilePath, MainfestPath, Desciption, UploadedAt)
+                        (Name, Type, Size, FilePath, MainfestPath, Description, UploadedAt)
                         VALUES(@name, @type, @size, @path, @manifestPath, @desc, @uploadedAt)
                     ";
                     command.Parameters.AddWithValue("@name", file.Name);

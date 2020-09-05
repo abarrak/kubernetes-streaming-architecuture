@@ -2,15 +2,22 @@
 
 @{
     ViewData["Title"] = "All Videos";
+    var flashResult = TempData["FlasResult"];
+    var flashMessage = TempData["FlashMessage"]?.ToString();
+}
+
+@if (!string.IsNullOrEmpty(flashMessage))
+{
+    <div class="alert @((bool)flashResult ? "alert-success" : "alert-danger")" role="alert">@flashMessage</div>
 }
 
 <h3 class="display-3">Videos List</h3>
 
 <div>
     <p class="lead">Stream from the below uplodaed list in MPEG-DASH manner:</p>
-    <hr />    
+    <hr />
     <p>
-        <a asp-action="Upload">Upload New</a>
+        <a asp-action="Upload" class="btn btn-light">Upload New</a>
     </p>
     <div class="table-responsive">
         <table class="table">
@@ -45,7 +52,7 @@
                             @Html.DisplayFor(modelItem => item.Type)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Size)
+                            @(item.Size / 1048576) MB
                         </td>
                         <td>
                             <a asp-action="Display" asp-route-id="@item.Id">Play</a>

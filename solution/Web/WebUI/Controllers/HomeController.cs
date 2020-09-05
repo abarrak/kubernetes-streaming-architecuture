@@ -37,8 +37,13 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Upload(FileDto file)
         {
-            await _manager.Upload(file);
-            return View();
+            var result = await _manager.Upload(file);
+            TempData["FlasResult"] = result;
+            TempData["FlashMessage"] = result ?
+                "You video is saved successfully!" :
+                "Something went wrong. Please check to submit correct video file (limit 50 MB).";
+
+            return Redirect("ListAll");
         }
 
 

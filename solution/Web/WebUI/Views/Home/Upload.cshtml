@@ -3,22 +3,35 @@
     ViewData["Title"] = "Upload";
 }
 
-<form enctype="multipart/form-data" method="post">
-    <dl>
-        <dt>
-            <label asp-for="@Model.FormFile"></label>
-        </dt>
-        <dd>
-            <input asp-for="@Model.FormFile" type="file">
-            <span asp-validation-for="@Model.FormFile"></span>
-        </dd>
-        <dt>
-            <label asp-for="@Model.Desciption"></label>
-        </dt>
-        <dd>
-            <input asp-for="@Model.Desciption" type="text">
-            <span asp-validation-for="@Model.Desciption"></span>
-        </dd>
-    </dl>
-    <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
-</form>
+<div class="row">
+    <div class="col-lg-8 offset-lg-2 text-center">
+        <div class="card mt-4">
+            <div class="card-header">Upload</div>
+            <div class="card-body">
+                <h5 class="card-title">Upload New Video</h5>
+                <div class="card-text m-2 p-2">
+                    <form enctype="multipart/form-data" method="post">
+                        <div class="form-group row">
+                            <label asp-for="@Model.FormFile" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10 custom-file">
+                                <input asp-for="@Model.FormFile" type="file" class="form-control-file">
+                                <span asp-validation-for="@Model.FormFile"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="@Model.Desciption" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@Model.Desciption" type="text" class="form-control">
+                                <span asp-validation-for="@Model.Desciption"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input asp-page-handler="Upload" class="btn btn-outline-success"
+                                    type="submit" value="Upload" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
