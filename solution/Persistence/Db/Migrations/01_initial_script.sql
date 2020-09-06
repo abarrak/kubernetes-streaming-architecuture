@@ -1,4 +1,4 @@
-CREATE TABLE MediaFile (
+CREATE TABLE IF NOT EXISTS MediaFile (
   Id INTEGER PRIMARY KEY AUTOINCREMENT,
   Name VARCHAR(100) NOT NULL,
   Type VARCHAR(50) NOT NULL,
@@ -18,4 +18,4 @@ INSERT INTO MediaFile VALUES (
   '5985d465-4b2c-4c27-966b-96a9a09198db/manifest/demo_manifest.mpd',
   'A sample MPEG4 served adaptivily by DASH stream',
   '9/4/2020 10:26:19 PM'
-);
+) WHERE NOT EXISTS (SELECT Id From MediaFile);
