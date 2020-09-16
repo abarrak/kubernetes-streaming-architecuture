@@ -42,6 +42,7 @@ namespace WebUI.Models.BussinessLogic
         {
             var mediaFile = await _repository.Find(id);
             MapFullPaths(mediaFile);
+
             return mediaFile;
         }
 
@@ -72,11 +73,8 @@ namespace WebUI.Models.BussinessLogic
 
             // Store to the file system.
             //
-            var filePath = Path.Combine(
-                _storagePath,
-                Guid.NewGuid().ToString()
-            );
-            var fileFullPath = Path.Combine(filePath, Path.GetRandomFileName());
+            var filePath = Guid.NewGuid().ToString();
+            var fileFullPath = Path.Combine(_storagePath, filePath, Path.GetRandomFileName());
 
             fileFullPath = Path.ChangeExtension(fileFullPath, extension);
             Directory.CreateDirectory(filePath);
@@ -93,6 +91,7 @@ namespace WebUI.Models.BussinessLogic
             {
                 Name = HttpUtility.HtmlEncode(Path.GetFileNameWithoutExtension(file.FormFile.FileName)),
                 FilePath = fileFullPath,
+                MainfestPath = filePath,
                 Size = file.FormFile.Length,
                 Type = extension,
                 Description = HttpUtility.HtmlEncode(file.Desciption),
@@ -105,9 +104,8 @@ namespace WebUI.Models.BussinessLogic
 
         private void MapFullPaths(MediaFile mediaFile)
         {
-            var storePath = _configuration.GetValue<string>("FileStorePath");
-            mediaFile.FilePath = Path.Combine(storePath, mediaFile.FilePath);
-            mediaFile.MainfestPath = Path.Combine(storePath, mediaFile.MainfestPath);
+            var streamingUrl = _configuration.GetValue<string>("StreamingServerUrl");
+            mediaFile.MainfestPath = $"{streamingUrl}/{mediaFile.MainfestPath}";
         }
     }
 }

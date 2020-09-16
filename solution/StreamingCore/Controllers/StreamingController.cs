@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StreamingCore.Models.Contracts;
 
 namespace StreamingCore.Controllers
 {
@@ -10,9 +9,19 @@ namespace StreamingCore.Controllers
     [Route("[controller]")]
     public class StreamingController : ControllerBase
     {
-        public StreamingController()
-        {
+        private readonly IMediaStreamingManager _manager;
 
+        public StreamingController(IMediaStreamingManager manager)
+        {
+            _manager = manager;
+        }
+
+        [HttpGet("range-stream")]
+        public IActionResult StreamInRanges(Guid fileId)
+        {
+            var url = _manager.GetMediaFilePath(fileId);
+
+            return PhysicalFile(url, "application/octet-stream", enableRangeProcessing: true);
         }
     }
 }

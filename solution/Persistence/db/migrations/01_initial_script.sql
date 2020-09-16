@@ -15,7 +15,7 @@ INSERT INTO MediaFile VALUES (
   'application/dash+xml',
   26800000,
   '5985d465-4b2c-4c27-966b-96a9a09198db/demo.mp4',
-  '5985d465-4b2c-4c27-966b-96a9a09198db/manifest/demo_manifest.mpd',
+  '5985d465-4b2c-4c27-966b-96a9a09198db/manifest/manifest.mpd',
   'A sample MPEG4 served adaptivily by DASH stream',
   '9/4/2020 10:26:19 PM'
 ) WHERE NOT EXISTS (SELECT Id From MediaFile);

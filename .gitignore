@@ -156,6 +156,7 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
+*.blob
 
 # Chutzpah Test files
 _Chutzpah*
@@ -405,3 +406,5 @@ ASALocalRun/
 .localhistory/
 
 certs/
+mono_crash.*.json
+mono_crash.*.blob

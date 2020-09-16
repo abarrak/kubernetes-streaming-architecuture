@@ -1,14 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
-
-
-  <ItemGroup>
-    <PackageReference Include="FFMpegCore" Version="2.2.6" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="FFMpegCore" Version="2.2.6" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="3.1.7" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="HostedServices\" />
+        <Folder Include="Models\" />
+        <Folder Include="Models\Data\" />
+        <Folder Include="Models\Contracts\" />
+        <Folder Include="Models\Managers\" />
+    </ItemGroup>
 </Project>
