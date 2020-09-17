@@ -2,22 +2,38 @@
 using System.Threading;
 using System.Threading.Tasks;
 using EncodingCore.Models.Contracts;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace EncodingCore.HostedServices
 {
     public class VideoEncodingService : BackgroundService
     {
-        private readonly IVideoEncodingManager _ecodingManager;
+        private readonly IServiceProvider _services;
+        private IVideoEncodingManager _manager;
 
-        public VideoEncodingService(IVideoEncodingManager encodingManager)
+        public VideoEncodingService(IServiceProvider services)
         {
-            _ecodingManager = encodingManager;
+            _services = services;
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            throw new NotImplementedException();
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await ProcessEncodingWorkload();
+                await Task.Delay(TimeSpan.FromSeconds(120));
+            }
+        }
+
+        private async Task ProcessEncodingWorkload()
+        {
+            using (var scope = _services.CreateScope())
+            {
+                _manager = scope.ServiceProvider.GetRequiredService<IVideoEncodingManager>();
+
+                await _manager.Process();
+            }
         }
     }
 }
