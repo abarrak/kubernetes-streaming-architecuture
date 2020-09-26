@@ -46,7 +46,7 @@ namespace EncodingCore.Models.Managers
                 using (SqliteCommand command = connection.CreateCommand())
                 {
                     command.CommandType = CommandType.Text;
-                    command.CommandText = "SELECT * FROM MediaFile WHERE ManifestPath = 0 AND LockForEncoding = 0";
+                    command.CommandText = "SELECT * FROM MediaFile WHERE ManifestPath = \"\" AND LockForEncoding = 0";
 
                     var reader = await command.ExecuteReaderAsync();
 

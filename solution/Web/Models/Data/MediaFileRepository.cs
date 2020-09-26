@@ -76,7 +76,7 @@ namespace WebUI.Models.Data
                 using (SqliteCommand command = connection.CreateCommand())
                 {
                     command.CommandType = CommandType.Text;
-                    command.CommandText = "SELECT * FROM MediaFile WHERE ManifestPath <> 0";
+                    command.CommandText = "SELECT * FROM MediaFile WHERE ManifestPath <> \"\"";
 
                     var records = new List<MediaFile>();
                     var reader = await command.ExecuteReaderAsync();
