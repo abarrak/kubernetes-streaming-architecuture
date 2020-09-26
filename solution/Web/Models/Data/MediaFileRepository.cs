@@ -28,14 +28,14 @@ namespace WebUI.Models.Data
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"
                         INSERT INTO MediaFile
-                        (Name, Type, Size, FilePath, MainfestPath, Description, UploadedAt)
+                        (Name, Type, Size, FilePath, ManifestPath, Description, UploadedAt)
                         VALUES(@name, @type, @size, @path, @manifestPath, @desc, @uploadedAt)
                     ";
                     command.Parameters.AddWithValue("@name", file.Name);
                     command.Parameters.AddWithValue("@type", file.Type);
                     command.Parameters.AddWithValue("@size", file.Size);
                     command.Parameters.AddWithValue("@path", file.FilePath);
-                    command.Parameters.AddWithValue("@manifestPath", file.FilePath);
+                    command.Parameters.AddWithValue("@manifestPath", "");
                     command.Parameters.AddWithValue("@desc", file.Description);
                     command.Parameters.AddWithValue("@uploadedAt", file.UploadedAt);
 
@@ -76,7 +76,7 @@ namespace WebUI.Models.Data
                 using (SqliteCommand command = connection.CreateCommand())
                 {
                     command.CommandType = CommandType.Text;
-                    command.CommandText = "SELECT * FROM MediaFile";
+                    command.CommandText = "SELECT * FROM MediaFile WHERE ManifestPath <> 0";
 
                     var records = new List<MediaFile>();
                     var reader = await command.ExecuteReaderAsync();
@@ -101,7 +101,7 @@ namespace WebUI.Models.Data
                 Size = reader.GetInt64("Size"),
                 Description = reader.GetString("Description"),
                 FilePath = reader.GetString("FilePath"),
-                MainfestPath = reader.GetString("MainfestPath"),
+                ManifestPath = reader.GetString("ManifestPath"),
                 UploadedAt = reader.GetDateTime("UploadedAt")
             };
         }

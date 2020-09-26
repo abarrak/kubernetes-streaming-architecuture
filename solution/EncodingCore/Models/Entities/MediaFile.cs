@@ -12,7 +12,7 @@ namespace EncodingCore.Models.Entities
         public string Description { get; set; }
 
         public string FilePath { get; set; }
-        public string MainfestPath { get; set; }
+        public string ManifestPath { get; set; }
 
         public DateTime UploadedAt { get; set; }
     }

@@ -1,0 +1,1 @@
+ALTER TABLE MediaFile ADD LockForEncoding INTEGER DEFAULT 0;

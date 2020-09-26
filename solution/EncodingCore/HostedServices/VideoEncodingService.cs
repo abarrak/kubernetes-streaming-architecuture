@@ -22,7 +22,7 @@ namespace EncodingCore.HostedServices
             while (!stoppingToken.IsCancellationRequested)
             {
                 await ProcessEncodingWorkload();
-                await Task.Delay(TimeSpan.FromSeconds(120));
+                await Task.Delay(TimeSpan.FromSeconds(60));
             }
         }
 

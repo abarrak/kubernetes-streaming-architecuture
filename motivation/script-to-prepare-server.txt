@@ -1,21 +1,21 @@
-ffmpeg -i in.video -vn -acodec libvorbis -ab 128k -dash 1 my_audio.webm
+ffmpeg -i in.video -vn -acodec libvorbis -ab 128k -dash 1 <FILENAME>_audio.webm
 
-ffmpeg -i Samsung-Demo.mp4 -c:v libvpx-vp9 -keyint_min 150 \
+ffmpeg -i <FILENAME>.mp4 -c:v libvpx-vp9 -keyint_min 150 \
 -g 150 -tile-columns 4 -frame-parallel 1  -f webm -dash 1 \
--an -vf scale=160:90 -b:v 250k -dash 1 demo_160x90_250k.webm \
--an -vf scale=320:180 -b:v 500k -dash 1 demo_320x180_500k.webm \
--an -vf scale=640:360 -b:v 750k -dash 1 demo_640x360_750k.webm \
--an -vf scale=640:360 -b:v 1000k -dash 1 demo_640x360_1000k.webm \
+-an -vf scale=160:90 -b:v 250k -dash 1 <FILENAME>_160x90_250k.webm \
+-an -vf scale=320:180 -b:v 500k -dash 1 <FILENAME>_320x180_500k.webm \
+-an -vf scale=640:360 -b:v 750k -dash 1 <FILENAME>_640x360_750k.webm \
+-an -vf scale=640:360 -b:v 1000k -dash 1 <FILENAME>_640x360_1000k.webm \
 
 
 ffmpeg \
-  -f webm_dash_manifest -i demo_160x90_250k.webm \
-  -f webm_dash_manifest -i demo_320x180_500k.webm \
-  -f webm_dash_manifest -i demo_640x360_750k.webm \
-  -f webm_dash_manifest -i demo_640x360_1000k.webm \
-  -f webm_dash_manifest -i demo_audio.webm \
+  -f webm_dash_manifest -i <FILENAME>_160x90_250k.webm \
+  -f webm_dash_manifest -i <FILENAME>_320x180_500k.webm \
+  -f webm_dash_manifest -i <FILENAME>_640x360_750k.webm \
+  -f webm_dash_manifest -i <FILENAME>_640x360_1000k.webm \
+  -f webm_dash_manifest -i <FILENAME>_audio.webm \
   -c copy \
   -map 0 -map 1 -map 2 -map 3 -map 4\
   -f webm_dash_manifest \
   -adaptation_sets "id=0,streams=0,1,2,3 id=1,streams=4" \
-  demo_manifest.mpd
+  <FILENAME>_manifest.mpd

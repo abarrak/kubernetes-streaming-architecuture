@@ -14,5 +14,6 @@
         <Folder Include="Models\Contracts\" />
         <Folder Include="Models\Managers\" />
         <Folder Include="Models\Entities\" />
+        <Folder Include="Models\Utils\" />
     </ItemGroup>
 </Project>
