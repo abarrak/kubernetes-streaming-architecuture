@@ -13,6 +13,7 @@ The data module is a pure SQL store for holding metadata and tracking of media f
 
 The digram below depicts in high-level the architecture's design.
 
+![HLD](https://raw.githubusercontent.com/abarrak/kubernetes-streaming-architecuture/master/solution/Design/Methodoloy-HLD.png)
 
 ## Soluiton Docker Images
 
@@ -25,3 +26,4 @@ The digram below depicts in high-level the architecture's design.
 The [Deployment](https://github.com/abarrak/kubernetes-streaming-architecuture/tree/master/solution/Deployment) folder contains the primary suggested Kubernetes deployment script, along with other alternative to explore and compare.
 
 ## Notes
+For further details and dicussion about the architectural aspects and analysis, please refer to the /evaluation folder and thesis publication.
