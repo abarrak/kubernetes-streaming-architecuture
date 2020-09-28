@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: streaming-core
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: streaming-core
+    spec:
+      containers:
+        - name: streaming-core
+          image: abarrak/streaming-system-streaming-core
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 9100
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: encoding
+spec:
+  containers:
+  - name: encoding-core
+    image: abarrak/streaming-system-encoding-core
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 9000
+    command:
+      - "sudo yum install epel-release -y"
+      - "sudo yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm -y"
+      - "sudo yum install ffmpeg ffmpeg-devel -y"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web
+spec:
+  containers:
+  - name: web
+    image: abarrak/streaming-system-web
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 9200
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: streaming-core
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: streaming-core
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: web
