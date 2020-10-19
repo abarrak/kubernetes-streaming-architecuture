@@ -1,9 +1,12 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: streaming-core
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: streaming-core
   template:
     metadata:
       labels:
@@ -15,53 +18,81 @@ spec:
           imagePullPolicy: Always
           ports:
           - containerPort: 9100
+          env:
+          - name: FileStorePath
+            value: ""      
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: encoding
+  name: encoding-core
 spec:
-  containers:
-  - name: encoding-core
-    image: abarrak/streaming-system-encoding-core
-    imagePullPolicy: Always
-    ports:
-    - containerPort: 9000
-    command:
-      - "sudo yum install epel-release -y"
-      - "sudo yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm -y"
-      - "sudo yum install ffmpeg ffmpeg-devel -y"
+  selector:
+    matchLabels:
+      app: encoding-core
+  template:
+    metadata:
+      labels:
+        app: encoding-core
+    spec:
+      containers:
+      - name: encoding-core
+        image: abarrak/streaming-system-encoding-core
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9000
+        env:
+        - name: FileStorePath
+          value: ""      
+        - name: ConnectionStrings__Sqlite
+          value: ""    
+        - name: StreamingServerUrl
+          value: ""      
+        command:
+          - "sudo yum install epel-release -y"
+          - "sudo yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm -y"
+          - "sudo yum install ffmpeg ffmpeg-devel -y"
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: web
 spec:
-  containers:
-  - name: web
-    image: abarrak/streaming-system-web
-    imagePullPolicy: Always
-    ports:
-    - containerPort: 9200
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web
+        image: abarrak/streaming-system-web
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9200
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: streaming-core
+  name: streaming-core-service
 spec:
   type: LoadBalancer
   ports:
   - port: 80
+    targetPort: 9100
   selector:
     app: streaming-core
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: web-service
 spec:
   type: LoadBalancer
   ports:
   - port: 80
+    targetPort: 9200
   selector:
     app: web
