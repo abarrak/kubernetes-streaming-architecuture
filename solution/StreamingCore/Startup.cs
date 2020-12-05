@@ -56,7 +56,8 @@ namespace StreamingCore
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
-                    Path.Combine(env.ContentRootPath, "./../Persistence/file-store")),
+                    Configuration.GetValue<string>("FileStorePath")
+                ),
                 RequestPath = "",
                 ContentTypeProvider = provider
             });
