@@ -12,16 +12,23 @@ spec:
       labels:
         app: streaming-core
     spec:
+      volumes:
+      - name: file-store
+        persistentVolumeClaim:
+          claimName: streaming-pv-claim
       containers:
         - name: streaming-core
           image: docker.io/abarrak/streaming-system-streaming-core:0.1
           imagePullPolicy: Always
           ports:
-          - name: streaming-core-port
+          - name: core-port
             containerPort: 9100
+          volumeMounts:
+          - mountPath: "/usr/file-store"
+            name: file-store
           env:
           - name: FileStorePath
-            value: ""      
+            value: "/usr/file-store"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -36,23 +43,28 @@ spec:
       labels:
         app: encoding-core
     spec:
+      volumes:
+      - name: file-store
+        persistentVolumeClaim:
+          claimName: streaming-pv-claim
       containers:
       - name: encoding-core
         image: docker.io/abarrak/streaming-system-encoding-core:0.1
         imagePullPolicy: Always
         ports:
         - containerPort: 9000
+        volumeMounts:
+        - mountPath: "/usr/file-store"
+          name: file-store
         env:
         - name: FileStorePath
-          value: ""      
+          value: "/usr/file-store"
         - name: ConnectionStrings__Sqlite
-          value: ""    
-        - name: StreamingServerUrl
-          value: ""      
-        # command:
-        #   - "sudo yum install epel-release -y"
-        #   - "sudo yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm -y"
-        #   - "sudo yum install ffmpeg ffmpeg-devel -y"
+          value: "Data Source=/usr/db/database.db"
+        command:
+          - "sudo yum install epel-release -y"
+          - "sudo yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm -y"
+          - "sudo yum install ffmpeg ffmpeg-devel -y"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -67,6 +79,10 @@ spec:
       labels:
         app: web
     spec:
+      volumes:
+      - name: file-store
+        persistentVolumeClaim:
+          claimName: streaming-pv-claim
       containers:
       - name: web
         image: docker.io/abarrak/streaming-system-web:0.1
@@ -74,23 +90,33 @@ spec:
         ports:
         - name: web-port
           containerPort: 9200
+        volumeMounts:
+        - mountPath: "/usr/file-store"
+          name: file-store
+        env:
+        - name: FileStorePath
+          value: "/usr/file-store"
+        - name: ConnectionStrings__Sqlite
+          value: "Data Source=/usr/db/database.db"
+        - name: StreamingServerUrl
+          value: $(STREAMING-CORE-SVC_SERVICE_HOST)
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: streaming-core-service
+  name: streaming-core-svc
 spec:
   type: LoadBalancer
   ports:
   - port: 80
-    targetPort: streaming-core-port
+    targetPort: core-port
   selector:
     app: streaming-core
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: web-service
+  name: web-svc
 spec:
   type: LoadBalancer
   ports:
