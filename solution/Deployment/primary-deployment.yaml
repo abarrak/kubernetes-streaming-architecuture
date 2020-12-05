@@ -16,6 +16,12 @@ spec:
       - name: file-store
         persistentVolumeClaim:
           claimName: streaming-pv-claim
+      initContainers:
+      - name: db-migrator
+        image: streaming-db-migration:0.1
+        volumeMounts:
+        - mountPath: "/usr/file-store"
+          name: file-store
       containers:
         - name: streaming-core
           image: docker.io/abarrak/streaming-system-streaming-core:0.1
