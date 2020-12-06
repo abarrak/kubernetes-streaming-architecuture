@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 sqlite3 database.db 'CREATE TABLE IF NOT EXISTS MediaFile (
   Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -8,5 +8,6 @@ sqlite3 database.db 'CREATE TABLE IF NOT EXISTS MediaFile (
   FilePath TEXT NOT NULL,
   ManifestPath TEXT NOT NULL,
   Description TEXT,
+  LockForEncoding INTEGER DEFAULT 0,
   UploadedAt DATETIME
-);' 'ALTER TABLE MediaFile ADD LockForEncoding INTEGER DEFAULT 0;' '.exit'
+);' '.exit'

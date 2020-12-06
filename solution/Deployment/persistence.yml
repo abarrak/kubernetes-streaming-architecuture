@@ -15,6 +15,21 @@ spec:
     path: /data/persistence-store/
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: db-pv
+  labels:
+    app: db-store
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/persistence-store/
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: streaming-pv-claim
@@ -25,3 +40,15 @@ spec:
   resources:
     requests:
       storage: 3Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
