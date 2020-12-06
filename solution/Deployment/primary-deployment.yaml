@@ -24,7 +24,7 @@ spec:
           name: store-volume
       containers:
         - name: streaming-core
-          image: docker.io/abarrak/streaming-system-streaming-core:0.2
+          image: docker.io/abarrak/streaming-system-streaming-core:0.3
           imagePullPolicy: IfNotPresent
           ports:
           - name: core-port
@@ -57,7 +57,7 @@ spec:
           claimName: streaming-pv-claim
       containers:
       - name: encoding-core
-        image: docker.io/abarrak/streaming-system-encoding-core:0.1
+        image: docker.io/abarrak/streaming-system-encoding-core:0.2
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9000
@@ -89,7 +89,7 @@ spec:
           claimName: streaming-pv-claim
       containers:
       - name: web
-        image: docker.io/abarrak/streaming-system-web:0.1
+        image: docker.io/abarrak/streaming-system-web:0.2
         imagePullPolicy: IfNotPresent
         ports:
         - name: web-port
