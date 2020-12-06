@@ -54,7 +54,7 @@ spec:
           claimName: db-pv-claim
       initContainers:
       - name: db-migrator
-        image: abarrak/streaming-persistence:0.1
+        image: abarrak/streaming-persistence:0.2
         imagePullPolicy: Always
         volumeMounts:
         - mountPath: "/usr/db/"
@@ -137,7 +137,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 8085
+  - port: 8050
     targetPort: web-port
   selector:
     app: web
