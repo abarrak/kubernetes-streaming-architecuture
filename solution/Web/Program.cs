@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -18,6 +19,7 @@ namespace WebUI
                        {
                            webBuilder.ConfigureKestrel((context, options) =>
                            {
+                               options.Listen(IPAddress.Loopback, 9200);
                                options.Limits.MaxRequestBodySize = 52428800;
                            }).UseStartup<Startup>();
                        });

@@ -13,28 +13,30 @@ spec:
         app: streaming-core
     spec:
       volumes:
-      - name: file-store
+      - name: store-volume
         persistentVolumeClaim:
           claimName: streaming-pv-claim
       initContainers:
       - name: db-migrator
-        image: streaming-db-migration:0.1
+        image: abarrak/streaming-persistence:0.1
         volumeMounts:
-        - mountPath: "/usr/file-store"
-          name: file-store
+        - mountPath: "/usr/db"
+          name: store-volume
       containers:
         - name: streaming-core
           image: docker.io/abarrak/streaming-system-streaming-core:0.2
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
           - name: core-port
             containerPort: 9100
           volumeMounts:
           - mountPath: "/usr/file-store"
-            name: file-store
+            name: store-volume
           env:
           - name: FileStorePath
             value: "/usr/file-store"
+          - name: ASPNETCORE_URLS
+            value: "http://+"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -50,27 +52,23 @@ spec:
         app: encoding-core
     spec:
       volumes:
-      - name: file-store
+      - name: store-volume
         persistentVolumeClaim:
           claimName: streaming-pv-claim
       containers:
       - name: encoding-core
         image: docker.io/abarrak/streaming-system-encoding-core:0.1
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9000
         volumeMounts:
         - mountPath: "/usr/file-store"
-          name: file-store
+          name: store-volume
         env:
         - name: FileStorePath
           value: "/usr/file-store"
         - name: ConnectionStrings__Sqlite
           value: "Data Source=/usr/db/database.db"
-        command:
-          - "sudo yum install epel-release -y"
-          - "sudo yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm -y"
-          - "sudo yum install ffmpeg ffmpeg-devel -y"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -86,19 +84,19 @@ spec:
         app: web
     spec:
       volumes:
-      - name: file-store
+      - name: store-volume
         persistentVolumeClaim:
           claimName: streaming-pv-claim
       containers:
       - name: web
         image: docker.io/abarrak/streaming-system-web:0.1
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - name: web-port
           containerPort: 9200
         volumeMounts:
         - mountPath: "/usr/file-store"
-          name: file-store
+          name: store-volume
         env:
         - name: FileStorePath
           value: "/usr/file-store"
@@ -106,6 +104,8 @@ spec:
           value: "Data Source=/usr/db/database.db"
         - name: StreamingServerUrl
           value: $(STREAMING-CORE-SVC_SERVICE_HOST)
+        - name: ASPNETCORE_URLS
+          value: "http://+"
 ---
 apiVersion: v1
 kind: Service

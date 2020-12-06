@@ -15,5 +15,8 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 WORKDIR /app
 COPY --from=build-env /app/out .
 
+RUN apt update -y
+RUN apt install ffmpeg -y
+
 ENV ASPNETCORE_URLS="http://+"
 ENTRYPOINT ["dotnet", "EncodingCore.dll"]
