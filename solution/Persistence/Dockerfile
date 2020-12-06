@@ -1,9 +1,9 @@
 FROM alpine:3.7
-RUN apk add --update sqlite
-RUN mkdir /file-store
-RUN mkdir /db
-RUN mkdir /db/migrations
-WORKDIR /db
+LABEL stage=builder
 
-ENTRYPOINT ["sqlite3"]
-CMD ["database.db"]
+RUN apk add --update sqlite
+RUN mkdir /usr/db/
+ADD migrate.sh /user/db/
+
+WORKDIR /user/db/
+ENTRYPOINT ["/bin/sh", "migrate.sh"]

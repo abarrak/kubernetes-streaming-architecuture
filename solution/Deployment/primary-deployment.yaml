@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: streaming-core
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: streaming-core
@@ -24,7 +24,7 @@ spec:
           name: file-store
       containers:
         - name: streaming-core
-          image: docker.io/abarrak/streaming-system-streaming-core:0.1
+          image: docker.io/abarrak/streaming-system-streaming-core:0.2
           imagePullPolicy: Always
           ports:
           - name: core-port
@@ -110,7 +110,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: streaming-core-svc
+  name: core-svc
 spec:
   type: LoadBalancer
   ports:
@@ -126,7 +126,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 80
+  - port: 8085
     targetPort: web-port
   selector:
     app: web
