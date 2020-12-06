@@ -18,7 +18,7 @@ spec:
           claimName: streaming-pv-claim
       initContainers:
       - name: db-migrator
-        image: abarrak/streaming-persistence:0.1
+        image: abarrak/streaming-persistence:0.2
         volumeMounts:
         - mountPath: "/usr/db"
           name: store-volume
