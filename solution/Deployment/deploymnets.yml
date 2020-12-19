@@ -118,6 +118,6 @@ spec:
         - name: ConnectionStrings__Sqlite
           value: "Data Source=/usr/db/database.db"
         - name: StreamingServerUrl
-          value: http://$(CORE_SVC_SERVICE_HOST)
+          value: http://$(CORE_SVC_SERVICE_HOST):$(CORE_SVC_SERVICE_PORT)
         - name: ASPNETCORE_URLS
           value: "http://+"

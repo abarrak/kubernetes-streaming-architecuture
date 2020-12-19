@@ -4,6 +4,7 @@ kind: Service
 metadata:
   name: core-svc
 spec:
+  type: NodePort
   ports:
   - port: 80
     targetPort: core-port
@@ -15,6 +16,7 @@ kind: Service
 metadata:
   name: web-svc
 spec:
+  type: NodePort
   ports:
   - port: 8050
     targetPort: web-port
